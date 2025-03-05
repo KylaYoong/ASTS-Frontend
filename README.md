@@ -1,2 +1,2 @@
 # ASTS-Frontend
-FIT3162 - MCS13 - FYP Project
+FIT3162 - FYP Project - MCS13
