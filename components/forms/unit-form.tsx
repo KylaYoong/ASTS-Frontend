@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -6,6 +7,53 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
 export function UnitForm() {
+  const [unitCode, setUnitCode] = useState("")
+  const [unitName, setUnitName] = useState("")
+  const [unitLevel, setUnitLevel] = useState("")
+  const [unitDescription, setUnitDescription] = useState("")
+  const [unitCreditPoint, setUnitCreditPoint] = useState("")
+  const [status, setStatus] = useState("continuous")
+  const [message, setMessage] = useState("")
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const payload = {
+      unitCode,
+      unitName,
+      unitLevel: parseInt(unitLevel),
+      unitDescription,
+      unitCreditPoint: parseInt(unitCreditPoint),
+      status
+    }
+
+    try {
+      const response = await fetch("http://localhost:8080/asts/info/unit/insertOrUpdate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      })
+
+      if (response.ok) {
+        setMessage("✅ Unit inserted/updated successfully!")
+        // Optionally reset form
+        setUnitCode("")
+        setUnitName("")
+        setUnitLevel("")
+        setUnitDescription("")
+        setUnitCreditPoint("")
+        setStatus("continuous")
+      } else {
+        const errorText = await response.text()
+        setMessage(`❌ Error: ${errorText}`)
+      }
+    } catch (err) {
+      setMessage(`❌ Error: ${err}`)
+    }
+  }
+
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
@@ -22,18 +70,28 @@ export function UnitForm() {
           Upload
         </Button>
       </div>
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
           <label className="text-lg">Unit Code:</label>
-          <Input placeholder="Enter unit code" className="w-full rounded-lg text-lg p-3" />
+          <Input
+            placeholder="Enter unit code"
+            className="w-full rounded-lg text-lg p-3"
+            value={unitCode}
+            onChange={(e) => setUnitCode(e.target.value)}
+          />
         </div>
         <div className="space-y-2">
           <label className="text-lg">Unit Name:</label>
-          <Input placeholder="Enter unit name" className="w-full rounded-lg text-lg p-3" />
+          <Input
+            placeholder="Enter unit name"
+            className="w-full rounded-lg text-lg p-3"
+            value={unitName}
+            onChange={(e) => setUnitName(e.target.value)}
+          />
         </div>
         <div className="space-y-2">
           <label className="text-lg">Unit Level:</label>
-          <Select>
+          <Select value={unitLevel} onValueChange={(val) => setUnitLevel(val)}>
             <SelectTrigger className="w-full rounded-lg text-lg p-3 h-auto">
               <SelectValue placeholder="Select unit level" />
             </SelectTrigger>
@@ -48,15 +106,26 @@ export function UnitForm() {
         </div>
         <div className="space-y-2">
           <label className="text-lg">Unit Description:</label>
-          <Textarea placeholder="Enter unit description" className="w-full rounded-lg text-lg p-3 min-h-[100px]" />
+          <Textarea
+            placeholder="Enter unit description"
+            className="w-full rounded-lg text-lg p-3 min-h-[100px]"
+            value={unitDescription}
+            onChange={(e) => setUnitDescription(e.target.value)}
+          />
         </div>
         <div className="space-y-2">
           <label className="text-lg">Credit Point:</label>
-          <Input placeholder="Enter credit point" type="number" className="w-full rounded-lg text-lg p-3" />
+          <Input
+            placeholder="Enter credit point"
+            type="number"
+            className="w-full rounded-lg text-lg p-3"
+            value={unitCreditPoint}
+            onChange={(e) => setUnitCreditPoint(e.target.value)}
+          />
         </div>
         <div className="space-y-2">
           <label className="text-lg block mb-2">Status:</label>
-          <RadioGroup defaultValue="continuous" className="flex gap-4">
+          <RadioGroup value={status} onValueChange={(val) => setStatus(val)} className="flex gap-4">
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="continuous" id="continuous" />
               <Label htmlFor="continuous">Continuous</Label>
@@ -70,8 +139,8 @@ export function UnitForm() {
         <Button type="submit" className="bg-black text-white px-8 py-2 rounded-lg text-lg hover:bg-black/90">
           Save
         </Button>
+        {message && <p className="text-base mt-4">{message}</p>}
       </form>
     </div>
   )
 }
-
