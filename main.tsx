@@ -73,6 +73,7 @@ export default function FileManager() {
           <div className="py-3">
             <div className="px-3 text-xs font-medium uppercase text-gray-500">Query</div>
             <div className="mt-2">
+              <FolderItem href="/query/general">General</FolderItem>
               <FolderItem href="/query/educator">Educator</FolderItem>
               <FolderItem href="/query/student">Student</FolderItem>
               <FolderItem href="/query/unit">Unit</FolderItem>

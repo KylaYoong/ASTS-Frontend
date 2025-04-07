@@ -118,6 +118,7 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
         <div className="py-3">
           <div className="px-3 text-xs font-medium uppercase text-gray-500">Query</div>
           <div className="mt-2">
+            <FolderItem onClick={() => {}}>General</FolderItem>
             <FolderItem onClick={() => {}}>Educator</FolderItem>
             <FolderItem onClick={() => {}}>Student</FolderItem>
             <FolderItem onClick={() => {}}>Unit</FolderItem>
