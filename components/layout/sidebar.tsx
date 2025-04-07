@@ -13,10 +13,11 @@ type ActiveView =
   | "student"
   | "educator"
   | "educator-availability"
+  | "general" // Added general for timetable view
 
 interface SidebarProps {
-  activeView: ActiveView
-  setActiveView: (view: ActiveView) => void
+  activeView: ActiveView | string
+  setActiveView: (view: ActiveView | string) => void
 }
 
 // Type Definitions
@@ -86,7 +87,7 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
         </NavItem>
 
         <div className="py-3">
-          <div className="px-3 text-xs font-medium uppercase text-gray-500">Input Data</div>
+          <div className="px-3 text-xs font-medium uppercase text-gray-500">INPUT DATA</div>
           <div className="mt-2">
             <FolderItem onClick={() => setActiveView("venue")} active={activeView === "venue"}>
               Venue
@@ -116,12 +117,23 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
         </div>
 
         <div className="py-3">
-          <div className="px-3 text-xs font-medium uppercase text-gray-500">Query</div>
+          <div className="px-3 text-xs font-medium uppercase text-gray-500">QUERY</div>
           <div className="mt-2">
-            <FolderItem onClick={() => {}}>Educator</FolderItem>
-            <FolderItem onClick={() => {}}>Student</FolderItem>
-            <FolderItem onClick={() => {}}>Unit</FolderItem>
-            <FolderItem onClick={() => {}}>Venue</FolderItem>
+            <FolderItem onClick={() => setActiveView("general")} active={activeView === "general"}>
+              General
+            </FolderItem>
+            <FolderItem onClick={() => setActiveView("educator-query")} active={activeView === "educator-query"}>
+              Educator
+            </FolderItem>
+            <FolderItem onClick={() => setActiveView("student-query")} active={activeView === "student-query"}>
+              Student
+            </FolderItem>
+            <FolderItem onClick={() => setActiveView("unit-query")} active={activeView === "unit-query"}>
+              Unit
+            </FolderItem>
+            <FolderItem onClick={() => setActiveView("venue-query")} active={activeView === "venue-query"}>
+              Venue
+            </FolderItem>
           </div>
         </div>
       </nav>
