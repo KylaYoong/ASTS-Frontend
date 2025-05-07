@@ -1,32 +1,32 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export function CourseUnitOfferingForm() {
   const [courseCode, setCourseCode] = useState("");
-  const [unitCodes, setUnitCodes] = useState([""]);
-  const [unitOfferingSemester, setUnitOfferingSemester] = useState("");
-  const [unitOfferingYear, setUnitOfferingYear] = useState("");
+  const [units, setUnits] = useState([{ unitCode: "", year: "", semester: "" }]);
+  const [enrolYear, setEnrolYear] = useState("");
+  const [enrolSemester, setEnrolSemester] = useState("");
+  const [cognate, setCognate] = useState(false);
   const [message, setMessage] = useState("");
 
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 6 }, (_, i) => currentYear + i);
+  type UnitField = "unitCode" | "year" | "semester";
 
-  const handleUnitCodeChange = (index: number, value: string) => {
-    const updated = [...unitCodes];
-    updated[index] = value;
-    setUnitCodes(updated);
+  const handleUnitChange = (index: number, field: UnitField, value: string) => {
+    const updated = [...units];
+    updated[index][field] = value;
+    setUnits(updated);
   };
 
-  const addUnitCodeField = () => {
-    setUnitCodes([...unitCodes, ""]);
+  const addUnitField = () => {
+    setUnits([...units, { unitCode: "", year: "", semester: "" }]);
+  };
+
+  const removeUnitField = (index: number) => {
+    const updated = [...units];
+    updated.splice(index, 1);
+    setUnits(updated);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,9 +34,12 @@ export function CourseUnitOfferingForm() {
 
     const payload = {
       courseCode,
-      unitCodeList: unitCodes.filter((code) => code.trim() !== ""),
-      unitOfferingSemester,
-      unitOfferingYear,
+      unitCodeList: units.map((u) => u.unitCode),
+      unitOfferingYear: units.map((u) => u.year),
+      unitOfferingSemester: units.map((u) => u.semester),
+      enrolYear,
+      enrolSemester,
+      cognate,
     };
 
     try {
@@ -56,9 +59,10 @@ export function CourseUnitOfferingForm() {
       if (responseData.data) {
         setMessage("✅ Course unit offering submitted successfully!");
         setCourseCode("");
-        setUnitCodes([""]);
-        setUnitOfferingSemester("");
-        setUnitOfferingYear("");
+        setUnits([{ unitCode: "", year: "", semester: "" }]);
+        setEnrolYear("");
+        setEnrolSemester("");
+        setCognate(false);
       } else {
         setMessage(`❌ Error: ${responseData.resultMessage}`);
       }
@@ -69,20 +73,7 @@ export function CourseUnitOfferingForm() {
 
   return (
     <div className="p-4">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-semibold">Course Unit Offering</h1>
-        <Button variant="outline" className="gap-2">
-          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path
-              d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          Upload
-        </Button>
-      </div>
+      <h1 className="text-2xl font-semibold mb-6">Course Unit Offering</h1>
 
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
@@ -95,45 +86,82 @@ export function CourseUnitOfferingForm() {
           />
         </div>
 
-        {unitCodes.map((code, index) => (
-          <div className="space-y-2" key={index}>
-            <label className="text-lg">Unit Code {index + 1}:</label>
-            <Input
-              value={code}
-              onChange={(e) => handleUnitCodeChange(index, e.target.value)}
-              placeholder={`Enter unit code ${index + 1}`}
-              className="w-full rounded-lg text-lg p-3"
-            />
+        {units.map((unit, index) => (
+          <div key={index} className="border rounded-lg p-4 space-y-4 relative">
+            <div className="space-y-2">
+              <label className="text-lg">Unit Code {index + 1}:</label>
+              <Input
+                value={unit.unitCode}
+                onChange={(e) => handleUnitChange(index, "unitCode", e.target.value)}
+                placeholder="Enter unit code"
+                className="w-full rounded-lg text-lg p-3"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-lg">Offering Year:</label>
+              <Input
+                value={unit.year}
+                onChange={(e) => handleUnitChange(index, "year", e.target.value)}
+                placeholder="Enter offering year"
+                className="w-full rounded-lg text-lg p-3"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-lg">Offering Semester:</label>
+              <Input
+                value={unit.semester}
+                onChange={(e) => handleUnitChange(index, "semester", e.target.value)}
+                placeholder="Enter offering semester"
+                className="w-full rounded-lg text-lg p-3"
+              />
+            </div>
+
+            {units.length > 1 && (
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={() => removeUnitField(index)}
+                className="absolute top-2 right-2 text-sm"
+              >
+                ✖
+              </Button>
+            )}
           </div>
         ))}
 
-        <Button
-          type="button"
-          variant="outline"
-          onClick={addUnitCodeField}
-          className="rounded-lg text-md"
-        >
-          ➕ Add another unit code
+        <Button type="button" variant="outline" onClick={addUnitField}>
+          ➕ Add another unit
         </Button>
 
         <div className="space-y-2">
-            <label className="text-lg">Semester:</label>
-            <Input
-                value={unitOfferingSemester}
-                onChange={(e) => setUnitOfferingSemester(e.target.value)}
-                placeholder="Enter semester (e.g. 1, 2, summer, winter)"
-                className="w-full rounded-lg text-lg p-3"
-            />
+          <label className="text-lg">Enrol Year:</label>
+          <Input
+            value={enrolYear}
+            onChange={(e) => setEnrolYear(e.target.value)}
+            placeholder="Enter enrol year"
+            className="w-full rounded-lg text-lg p-3"
+          />
         </div>
 
         <div className="space-y-2">
-            <label className="text-lg">Year:</label>
-            <Input
-                value={unitOfferingYear}
-                onChange={(e) => setUnitOfferingYear(e.target.value)}
-                placeholder="Enter year (e.g. 2025)"
-                className="w-full rounded-lg text-lg p-3"
-            />
+          <label className="text-lg">Enrol Semester:</label>
+          <Input
+            value={enrolSemester}
+            onChange={(e) => setEnrolSemester(e.target.value)}
+            placeholder="Enter enrol semester"
+            className="w-full rounded-lg text-lg p-3"
+          />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id="cognate"
+            checked={cognate}
+            onCheckedChange={(val) => setCognate(Boolean(val))}
+          />
+          <label htmlFor="cognate" className="text-lg">Cognate</label>
         </div>
 
         <Button type="submit" className="bg-black text-white px-8 py-2 rounded-lg text-lg hover:bg-black/90">
