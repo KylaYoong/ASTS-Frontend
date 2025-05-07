@@ -3,17 +3,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export function UnitOfferingForm() {
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 6 }, (_, i) => currentYear + i);
-
-  const [unitCode, setUnitCode] = useState("");
+export function CourseForm() {
   const [courseCode, setCourseCode] = useState("");
+  const [courseName, setCourseName] = useState("");
   const [enrolYear, setEnrolYear] = useState("");
   const [enrolSemester, setEnrolSemester] = useState("");
-  const [offeringYear, setOfferingYear] = useState("");
-  const [offeringSemester, setOfferingSemester] = useState("");
   const [cognate, setCognate] = useState(false);
   const [message, setMessage] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -39,22 +36,19 @@ export function UnitOfferingForm() {
     setShowDropdown(false);
   };
 
-  // Handle Form Submission
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   
     const payload = {
-      unitCode,
       courseCode,
+      courseName,
       enrolYear,
       enrolSemester,
-      offeringYear,
-      offeringSemester,
       cognate: cognate.toString(), // converting boolean to string for API compatibility
     };
   
     try {
-      const response = await fetch("http://localhost:8080/asts/info/unitOffering/insertOrUpdate", {
+      const response = await fetch("http://localhost:8080/asts/info/course/insertOrUpdateCourse", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,18 +56,16 @@ export function UnitOfferingForm() {
         body: JSON.stringify(payload),
       });
   
-      const responseData = await response.json();
+      const responseData = await response.json(); // Parse the response as JSON
   
       if (responseData.data) {
-        // If `data` is truthy, it indicates success
-        setMessage("✅ Unit Offering inserted/updated successfully!");
+        // If `data` is truthy, we consider it a success
+        setMessage("✅ Course inserted/updated successfully!");
         // Reset the form fields
-        setUnitCode("");
         setCourseCode("");
+        setCourseName("");
         setEnrolYear("");
         setEnrolSemester("");
-        setOfferingYear("");
-        setOfferingSemester("");
         setCognate(false);
       } else {
         // If `data` is null, show the error message
@@ -83,7 +75,7 @@ export function UnitOfferingForm() {
       // Handle any errors from the fetch request
       setMessage(`❌ Error: ${err}`);
     }
-  }
+  };
   
   // Close dropdown when clicking outside
   if (typeof window !== "undefined") {
@@ -97,7 +89,7 @@ export function UnitOfferingForm() {
   return (
     <div className="p-4">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-semibold">Unit Offering</h1>
+        <h1 className="text-2xl font-semibold">Course</h1>
         <Button variant="outline" className="gap-2">
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path
@@ -113,36 +105,6 @@ export function UnitOfferingForm() {
 
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
-          <label className="text-lg">Unit Code:</label>
-          <Input
-            type="text"
-            value={unitCode}
-            onChange={(e) => setUnitCode(e.target.value)}
-            placeholder="Enter unit code"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-lg">Offering Year:</label>
-          <Input
-            type="text"
-            value={offeringYear}
-            onChange={(e) => setOfferingYear(e.target.value)}
-            placeholder="Enter offering year"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-lg">Offering Semester:</label>
-          <Input
-            type="text"
-            value={offeringSemester}
-            onChange={(e) => setOfferingSemester(e.target.value)}
-            placeholder="Enter offering semester"
-          />
-        </div>
-
-        <div className="space-y-2">
           <label className="text-lg">Course Code:</label>
           <Input
             type="text"
@@ -153,9 +115,19 @@ export function UnitOfferingForm() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-lg">Enrol Year:</label>
+          <label className="text-lg">Course Name:</label>
           <Input
             type="text"
+            value={courseName}
+            onChange={(e) => setCourseName(e.target.value)}
+            placeholder="Enter course name"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-lg">Enrol Year:</label>
+          <Input
+            type="number"
             value={enrolYear}
             onChange={(e) => setEnrolYear(e.target.value)}
             placeholder="Enter enrol year"
@@ -165,7 +137,7 @@ export function UnitOfferingForm() {
         <div className="space-y-2">
           <label className="text-lg">Enrol Semester:</label>
           <Input
-            type="text"
+            type="number"
             value={enrolSemester}
             onChange={(e) => setEnrolSemester(e.target.value)}
             placeholder="Enter enrol semester"
@@ -187,7 +159,7 @@ export function UnitOfferingForm() {
           </Button>
           {showDropdown && (
             <div 
-              className="fixed cognate-dropdown bg-white shadow-lg rounded-md border border-gray-200 z-50 p-1"
+              className="fixed cognate-dropdown bg-white shadow-lg rounded-md border border-gray-200 z-50"
               style={{
                 top: `${dropdownPosition.top}px`,
                 left: `${dropdownPosition.left}px`,
@@ -222,4 +194,4 @@ export function UnitOfferingForm() {
   );
 }
 
-export default UnitOfferingForm;
+export default CourseForm;

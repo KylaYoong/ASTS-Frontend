@@ -2,40 +2,56 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Bell, Grid, Search } from "lucide-react"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Bell, Grid, Plus, Search } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
 import { Sidebar } from "./ui/sidebar"
+// import type { ActiveView } from "./ui/sidebar"
+import { Timetable } from "./timetable"
+import { Dashboard } from "./dashboard/dashboard"
 import VenueForm from "./forms/venue-form"
+import { CourseForm } from "./forms/course-form"
 import { UnitForm } from "./forms/unit-form"
 import { UnitOfferingForm } from "./forms/unit-offering-form"
+import { UnitOfferingClassDetailsForm } from "./forms/unit-offering-class-form"
 import { PositionForm } from "./forms/position-form"
 import { StudentForm } from "./forms/student-form"
 import { EducatorForm } from "./forms/educator-form"
 import { EducatorAvailabilityForm } from "./forms/educator-availability-form"
-import { Dashboard } from "./dashboard/dashboard"
-import { CourseForm } from "./forms/course-form"
-import { UnitOfferingClassDetailsForm } from "./forms/unit-offering-class-form"
-import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form" // ✅ Step 1
+import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form"
 
-type ActiveView =
-  | "dashboard"
-  | "venue"
-  | "course"
-  | "unit"
-  | "unit-offering"
-  | "unit-offering-class-details"
-  | "position"
-  | "student"
-  | "educator"
-  | "educator-availability"
-  | "course-unit-offering" // ✅ Step 2
-  | "general"
+function FileCard({ title, metadata, thumbnail }: { title: string; metadata: string; thumbnail: string }) {
+  return (
+    <div className="group relative overflow-hidden rounded-lg border bg-white">
+      <div className="aspect-[4/3] overflow-hidden">
+        <Image
+          src={thumbnail || "/placeholder.svg"}
+          alt={title}
+          width={400}
+          height={300}
+          className="h-full w-full object-cover transition-transform group-hover:scale-105"
+        />
+      </div>
+      <div className="p-4">
+        <h3 className="font-medium text-gray-900">{title}</h3>
+        <p className="text-sm text-gray-500">{metadata}</p>
+      </div>
+    </div>
+  )
+}
 
 export function FileManager() {
   const [activeView, setActiveView] = useState<ActiveView>("dashboard")
+  
+  // Determine if we should show the timetable view
+  const showTimetable = activeView === "general"
 
-  const renderMainContent = () => {
+  // For debugging
+  console.log("Current activeView:", activeView)
+  console.log("Should show timetable:", showTimetable)
+
+  const renderFormContent = () => {
     switch (activeView) {
       case "dashboard":
         return <Dashboard />
@@ -49,7 +65,7 @@ export function FileManager() {
         return <UnitOfferingForm />
       case "unit-offering-class-details":
         return <UnitOfferingClassDetailsForm />
-      case "position":
+      case "position":   
         return <PositionForm />
       case "student":
         return <StudentForm />
@@ -57,10 +73,10 @@ export function FileManager() {
         return <EducatorForm />
       case "educator-availability":
         return <EducatorAvailabilityForm />
-      case "course-unit-offering": // ✅ Step 3
-        return <CourseUnitOfferingForm />
+      case "course-unit-offering":
+        return <CourseUnitOfferingForm/>
       default:
-        return <div className="p-8">Content for {activeView}</div>
+        return <div>Content for {activeView}</div>
     }
   }
 
@@ -97,8 +113,30 @@ export function FileManager() {
           </div>
         </header>
 
-        <div className="flex-1 overflow-auto">{renderMainContent()}</div>
+        {
+        showTimetable ? (
+          <Timetable />
+        ) 
+        : 
+        (
+          <div className="p-6">
+            {renderFormContent()}
+
+            {activeView === "dashboard" && (
+              <>
+                <div className="mb-6 flex items-center gap-4">
+                
+
+
+                </div>
+
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
 }
+
+export default FileManager
