@@ -24,3 +24,24 @@ body {
   }
 }
 
+/* Add global styles to make content areas have smaller margins */
+@layer components {
+  .content-container {
+    @apply max-w-full px-2 py-2;
+  }
+  
+  /* Make form containers more compact */
+  .form-container {
+    @apply space-y-4;
+  }
+  
+  /* Make form elements more compact */
+  .form-field {
+    @apply space-y-1;
+  }
+  
+  /* Make horizontal layout more compact */
+  .compact-layout {
+    @apply gap-2;
+  }
+}

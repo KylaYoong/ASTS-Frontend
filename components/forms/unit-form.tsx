@@ -1,77 +1,159 @@
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
 export function UnitForm() {
+  const [unitCode, setUnitCode] = useState("")
+  const [unitName, setUnitName] = useState("")
+  const [unitLevel, setUnitLevel] = useState("")
+  const [unitDescription, setUnitDescription] = useState("")
+  const [unitCreditPoint, setCreditPoint] = useState("")
+  const [unitClassHoursPerWeek, setClassHour] = useState("")
+  const [unitStatus, setStatus] = useState("continuous")
+  const [unitMaximumEnrolmentCount, setMaxEnrolment] = useState("")
+  const [message, setMessage] = useState("")
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  
+    const payload = {
+      unitCode,
+      unitName,
+      unitLevel: parseInt(unitLevel),
+      unitDescription,
+      unitCreditPoint: parseInt(unitCreditPoint),
+      unitClassHoursPerWeek: parseInt(unitClassHoursPerWeek),
+      unitStatus,
+      unitMaximumEnrolmentCount: parseInt(unitMaximumEnrolmentCount),
+    };
+  
+    try {
+      const response = await fetch("http://localhost:8080/asts/info/unit/insertOrUpdate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      const responseData = await response.json(); // Parse the response as JSON
+  
+      if (responseData.data) {
+        // If `data` is truthy, we consider it a success
+        setMessage("✅ Unit inserted/updated successfully!");
+        // Reset the form fields
+        setUnitCode("");
+        setUnitName("");
+        setUnitLevel("");
+        setClassHour("");
+        setMaxEnrolment("");
+        setUnitDescription("");
+        setCreditPoint("");
+        setStatus("continuous");
+      } else {
+        // If `data` is null, show the error message
+        setMessage(`❌ Error: ${responseData.resultMessage}`);
+      }
+    } catch (err) {
+      // Handle any errors from the fetch request
+      setMessage(`❌ Error: ${err}`);
+    }
+  };
+
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-semibold">Unit</h1>
-        <Button variant="outline" className="gap-2">
-          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path
-              d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          Upload
-        </Button>
-      </div>
-      <form className="space-y-6">
+    <div className="p-4">
+      <h1 className="text-2xl font-semibold mb-8">Unit</h1>
+
+      <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
           <label className="text-lg">Unit Code:</label>
-          <Input placeholder="Enter unit code" className="w-full rounded-lg text-lg p-3" />
+          <Input 
+            value={unitCode} 
+            onChange={(e) => setUnitCode(e.target.value)} 
+            placeholder="Enter unit code"
+          />
         </div>
+
         <div className="space-y-2">
           <label className="text-lg">Unit Name:</label>
-          <Input placeholder="Enter unit name" className="w-full rounded-lg text-lg p-3" />
+          <Input 
+            value={unitName} 
+            onChange={(e) => setUnitName(e.target.value)} 
+            placeholder="Enter unit name"
+          />
         </div>
+
         <div className="space-y-2">
           <label className="text-lg">Unit Level:</label>
-          <Select>
-            <SelectTrigger className="w-full rounded-lg text-lg p-3 h-auto">
-              <SelectValue placeholder="Select unit level" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">Level 1</SelectItem>
-              <SelectItem value="2">Level 2</SelectItem>
-              <SelectItem value="3">Level 3</SelectItem>
-              <SelectItem value="4">Level 4</SelectItem>
-              <SelectItem value="5">Level 5</SelectItem>
-            </SelectContent>
-          </Select>
+          <Input 
+            type="number" 
+            value={unitLevel} 
+            onChange={(e) => setUnitLevel(e.target.value)} 
+            placeholder="Enter unit level"
+          />
         </div>
+
         <div className="space-y-2">
           <label className="text-lg">Unit Description:</label>
-          <Textarea placeholder="Enter unit description" className="w-full rounded-lg text-lg p-3 min-h-[100px]" />
+          <Textarea 
+            value={unitDescription} 
+            onChange={(e) => setUnitDescription(e.target.value)} 
+            placeholder="Enter unit description"
+          />
         </div>
+
         <div className="space-y-2">
-          <label className="text-lg">Credit Point:</label>
-          <Input placeholder="Enter credit point" type="number" className="w-full rounded-lg text-lg p-3" />
+          <label className="text-lg">Unit Credit Point:</label>
+          <Input 
+            type="number" 
+            value={unitCreditPoint} 
+            onChange={(e) => setCreditPoint(e.target.value)} 
+            placeholder="Enter credit point"
+          />
         </div>
+
+        <div className="space-y-2">
+          <label className="text-lg">Unit Class Hours Per Week:</label>
+          <Input 
+            type="number" 
+            value={unitClassHoursPerWeek} 
+            onChange={(e) => setClassHour(e.target.value)} 
+            placeholder="Enter class hours per week"
+          />
+        </div>
+
         <div className="space-y-2">
           <label className="text-lg block mb-2">Status:</label>
-          <RadioGroup defaultValue="continuous" className="flex gap-4">
+          <RadioGroup value={unitStatus} onValueChange={setStatus} className="flex gap-4">
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="continuous" id="continuous" />
-              <Label htmlFor="continuous">Continuous</Label>
+              <RadioGroupItem value="ACTIVE" id="continuous" />
+              <Label htmlFor="continuous">Active</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="archived" id="archived" />
-              <Label htmlFor="archived">Archived</Label>
+              <RadioGroupItem value="DISCONTINUED" id="archived" />
+              <Label htmlFor="archived">Discontinued</Label>
             </div>
           </RadioGroup>
         </div>
+
+        <div className="space-y-2">
+          <label className="text-lg">Unit Maximum Enrolment Count:</label>
+          <Input 
+            type="number" 
+            value={unitMaximumEnrolmentCount} 
+            onChange={(e) => setMaxEnrolment(e.target.value)} 
+            placeholder="Enter max enrolment count"
+          />
+        </div>
+
         <Button type="submit" className="bg-black text-white px-8 py-2 rounded-lg text-lg hover:bg-black/90">
           Save
         </Button>
       </form>
+      {message && <p className="text-base mt-4">{message}</p>}
     </div>
   )
 }
-

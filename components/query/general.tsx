@@ -1,114 +1,31 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, Grid, List, Printer, Filter, Calendar } from "lucide-react"
-
-// Define the class event type
-interface ClassEvent {
-  id: string
-  title: string
-  location: string
-  type: string
-  code: string
-  room: string
-  day: number // 0-6 for Monday-Sunday
-  startTime: number // Hours in 24h format
-  endTime: number // Hours in 24h format
-  color: string
-}
-
-// Sample class data
-const sampleClasses: ClassEvent[] = [
-  {
-    id: "1",
-    title: "ETW3482_MA_S1",
-    location: "CAMPUS",
-    type: "Tutorial",
-    code: "07",
-    room: "MA_Tutorial_6210",
-    day: 3, // Thursday
-    startTime: 8,
-    endTime: 10,
-    color: "bg-green-100",
-  },
-  {
-    id: "2",
-    title: "FIT3152_MA_S1",
-    location: "CAMPUS",
-    type: "Seminar",
-    code: "01",
-    room: "MA_Active_Learning_Classroom_9401",
-    day: 1, // Tuesday
-    startTime: 10,
-    endTime: 12,
-    color: "bg-yellow-100",
-  },
-  {
-    id: "3",
-    title: "FIT3152_MA_S1",
-    location: "CAMPUS",
-    type: "Applied",
-    code: "02",
-    room: "MA_ClassRoom_6103",
-    day: 3, // Thursday
-    startTime: 10,
-    endTime: 12,
-    color: "bg-blue-100",
-  },
-  {
-    id: "4",
-    title: "FIT3155_MA_S1",
-    location: "CAMPUS",
-    type: "Laboratory",
-    code: "01",
-    room: "MA_Active_Learning_Classroom_6103",
-    day: 4, // Friday
-    startTime: 10,
-    endTime: 13,
-    color: "bg-pink-200",
-  },
-  {
-    id: "5",
-    title: "FIT3162_MA_S1",
-    location: "CAMPUS",
-    type: "Tutorial",
-    code: "02",
-    room: "MA_NextGen_Four",
-    day: 1, // Tuesday
-    startTime: 14,
-    endTime: 16,
-    color: "bg-green-100",
-  },
-  {
-    id: "6",
-    title: "FIT3162_MA_S1",
-    location: "CAMPUS",
-    type: "Seminar",
-    code: "01",
-    room: "MA_LT_5001",
-    day: 0, // Monday
-    startTime: 16,
-    endTime: 18,
-    color: "bg-yellow-100",
-  },
-  {
-    id: "7",
-    title: "FIT3155_MA_S1",
-    location: "CAMPUS",
-    type: "Workshop",
-    code: "01",
-    room: "MA_LT_4108",
-    day: 0, // Monday
-    startTime: 19,
-    endTime: 21,
-    color: "bg-green-100",
-  },
-]
+import type { ClassEvent } from "@/app/api/timetable/route"
+import { fetchTimetableData } from "@/lib/api"
 
 export function Timetable() {
-  const [classes] = useState<ClassEvent[]>(sampleClasses)
-  const [currentWeekStart] = useState<string>("2025-03-31") // Default to the week in the screenshot
+  const [classes, setClasses] = useState<ClassEvent[]>([])
+  const [currentWeekStart, setCurrentWeekStart] = useState<string>("2025-03-31") // Default to the week in the screenshot
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadTimetableData() {
+      try {
+        setIsLoading(true)
+        const data = await fetchTimetableData(currentWeekStart)
+        setClasses(data.classes)
+      } catch (error) {
+        console.error("Failed to load timetable data:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadTimetableData()
+  }, [currentWeekStart])
 
   // Generate time slots from 8 AM to 8 PM
   const timeSlots = Array.from({ length: 13 }, (_, i) => i + 8)
@@ -213,51 +130,58 @@ export function Timetable() {
 
       {/* Timetable grid */}
       <div className="flex-1 overflow-auto">
-        <div className="grid grid-cols-[80px_repeat(7,1fr)] min-w-[1000px]">
-          {/* Header row with days */}
-          <div className="border-b border-r h-12"></div>
-          {days.map((day, index) => (
-            <div
-              key={index}
-              className="border-b border-r h-12 flex items-center justify-center font-medium text-blue-800"
-            >
-              {day.short}
-            </div>
-          ))}
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-800"></div>
+            <span className="ml-2">Loading timetable...</span>
+          </div>
+        ) : (
+          <div className="grid grid-cols-[80px_repeat(7,1fr)] min-w-[1000px]">
+            {/* Header row with days */}
+            <div className="border-b border-r h-12"></div>
+            {days.map((day, index) => (
+              <div
+                key={index}
+                className="border-b border-r h-12 flex items-center justify-center font-medium text-blue-800"
+              >
+                {day.short}
+              </div>
+            ))}
 
-          {/* Time slots and classes */}
-          {timeSlots.map((time) => (
-            <React.Fragment key={time}>
-              {/* Time label */}
-              <div className="border-b border-r p-2 text-sm text-gray-700">{formatTime(time)}</div>
+            {/* Time slots and classes */}
+            {timeSlots.map((time) => (
+              <React.Fragment key={time}>
+                {/* Time label */}
+                <div className="border-b border-r p-2 text-sm text-gray-700">{formatTime(time)}</div>
 
-              {/* Day cells */}
-              {days.map((_, dayIndex) => {
-                const firstHourClass = isFirstHourOfClass(dayIndex, time)
+                {/* Day cells */}
+                {days.map((_, dayIndex) => {
+                  const firstHourClass = isFirstHourOfClass(dayIndex, time)
 
-                return (
-                  <div key={`${time}-${dayIndex}`} className="border-b border-r relative h-16">
-                    {firstHourClass && (
-                      <div
-                        className={`absolute inset-x-0 ${firstHourClass.color} p-1 text-xs overflow-hidden`}
-                        style={{
-                          height: getClassHeight(firstHourClass),
-                          zIndex: 10,
-                        }}
-                      >
-                        <div className="font-medium">{firstHourClass.title}</div>
-                        <div>{firstHourClass.location}</div>
-                        <div>{firstHourClass.type}</div>
-                        <div>{firstHourClass.code}</div>
-                        <div>{firstHourClass.room}</div>
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </React.Fragment>
-          ))}
-        </div>
+                  return (
+                    <div key={`${time}-${dayIndex}`} className="border-b border-r relative h-16">
+                      {firstHourClass && (
+                        <div
+                          className={`absolute inset-x-0 ${firstHourClass.color} p-1 text-xs overflow-hidden`}
+                          style={{
+                            height: getClassHeight(firstHourClass),
+                            zIndex: 10,
+                          }}
+                        >
+                          <div className="font-medium">{firstHourClass.title}</div>
+                          <div>{firstHourClass.location}</div>
+                          <div>{firstHourClass.type}</div>
+                          <div>{firstHourClass.code}</div>
+                          <div>{firstHourClass.room}</div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </React.Fragment>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
