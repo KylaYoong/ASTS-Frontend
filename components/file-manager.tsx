@@ -20,6 +20,8 @@ import { StudentForm } from "./forms/student-form"
 import { EducatorForm } from "./forms/educator-form"
 import { EducatorAvailabilityForm } from "./forms/educator-availability-form"
 import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form"
+import { EducatorUnitOfferingForm } from "./forms/educator-unit-offering-form"
+
 
 function FileCard({ title, metadata, thumbnail }: { title: string; metadata: string; thumbnail: string }) {
   return (
@@ -75,6 +77,9 @@ export function FileManager() {
         return <EducatorAvailabilityForm />
       case "course-unit-offering":
         return <CourseUnitOfferingForm/>
+      case "educator-unit-offering":
+        return <EducatorUnitOfferingForm/>
+
       default:
         return <div>Content for {activeView}</div>
     }
