@@ -7,6 +7,7 @@ import type React from "react"
 export type ActiveView =
   | "dashboard"
   | "venue"
+  | "venue-type"
   | "course"
   | "course-unit-offering"
   | "unit"
@@ -16,7 +17,8 @@ export type ActiveView =
   | "student"
   | "educator"
   | "educator-availability"
-  | "general" // Added general for timetable view
+  | "educator-unit-offering"
+  | "general" 
   | "educator-query"
   | "student-query"
   | "unit-query"
@@ -96,11 +98,40 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
         <div className="py-3">
           <div className="px-3 text-xs font-medium uppercase text-gray-500">INPUT DATA</div>
           <div className="mt-2">
-          <FolderItem onClick={() => setActiveView("course")} active={activeView === "course"}>
+          <FolderItem 
+            onClick={() => setActiveView("course")} 
+            active={activeView === "course"}
+          >
             Course
           </FolderItem>
-          <FolderItem onClick ={() => setActiveView("course-unit-offering")} active = {activeView === "course-unit-offering"}>  Course Unit Offering</FolderItem>
-          <FolderItem onClick={() => setActiveView("educator")} active={activeView === "educator"}>
+          <FolderItem 
+            onClick={() => setActiveView("unit")} 
+            active={activeView === "unit"}
+          >
+            Unit
+          </FolderItem>
+          <FolderItem 
+            onClick={() => setActiveView("position")} 
+            active={activeView === "position"}
+          >
+            Position
+          </FolderItem>
+          <FolderItem 
+            onClick={() => setActiveView("venue-type")} 
+            active={activeView === "venue-type"}
+          >
+            Venue Type
+          </FolderItem>
+          <FolderItem 
+            onClick={() => setActiveView("venue")} 
+            active={activeView === "venue"}
+          >
+            Venue
+          </FolderItem>
+          <FolderItem 
+            onClick={() => setActiveView("educator")} 
+            active={activeView === "educator"}
+          >
             Educator
           </FolderItem>
           <FolderItem
@@ -109,23 +140,35 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
           >
             Educator Availability
           </FolderItem>
-          <FolderItem onClick={() => setActiveView("position")} active={activeView === "position"}>
-            Position
-          </FolderItem>
-          <FolderItem onClick={() => setActiveView("student")} active={activeView === "student"}>
+          <FolderItem 
+            onClick={() => setActiveView("student")} 
+            active={activeView === "student"}
+          >
             Student
           </FolderItem>
-          <FolderItem onClick={() => setActiveView("unit")} active={activeView === "unit"}>
-            Unit
-          </FolderItem>
-          <FolderItem onClick={() => setActiveView("unit-offering")} active={activeView === "unit-offering"}>
+          <FolderItem 
+            onClick={() => setActiveView("unit-offering")} 
+            active={activeView === "unit-offering"}
+          >
             Unit Offering
           </FolderItem>
-          <FolderItem onClick={() => setActiveView("unit-offering-class-details")} active={activeView === "unit-offering-class-details"}>
+          <FolderItem 
+            onClick={() => setActiveView("unit-offering-class-details")} 
+            active={activeView === "unit-offering-class-details"}
+          >
             Unit Offering Class Details
           </FolderItem>
-          <FolderItem onClick={() => setActiveView("venue")} active={activeView === "venue"}>
-            Venue
+          <FolderItem 
+            onClick={() => setActiveView("educator-unit-offering")} 
+            active={activeView === "educator-unit-offering"}
+          >
+            Educator Unit Offering
+          </FolderItem>
+          <FolderItem 
+            onClick ={() => setActiveView("course-unit-offering")} 
+            active = {activeView === "course-unit-offering"}
+          >  
+            Course Unit Offering
           </FolderItem>
 
           </div>

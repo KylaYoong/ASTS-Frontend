@@ -3,12 +3,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { off } from "process";
 
 export function UnitOfferingForm() {
   const [unitCode, setUnitCode] = useState("");
   const [offeringYear, setOfferingYear] = useState("");
   const [offeringSemester, setOfferingSemester] = useState("");
   const [message, setMessage] = useState("");
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear + i);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -53,27 +57,55 @@ export function UnitOfferingForm() {
           <Input
             value={unitCode}
             onChange={(e) => setUnitCode(e.target.value)}
-            placeholder="Enter unit code"
+            placeholder="Enter Unit Code"
           />
         </div>
 
         <div className="space-y-2">
           <label className="text-lg">Offering Year:</label>
-          <Input
-            value={offeringYear}
-            onChange={(e) => setOfferingYear(e.target.value)}
-            placeholder="Enter offering year (e.g. 2026)"
-          />
+          <div className="relative">
+            <select
+              value={offeringYear}
+              onChange={(e) => setOfferingYear(e.target.value)}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
+            >
+              <option value="" disabled>Select Offering Year</option>
+              {years.map((year) => (
+                <option key={year} value={year.toString()}>
+                  {year}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-2">
           <label className="text-lg">Offering Semester:</label>
-          <Input
-            value={offeringSemester}
-            onChange={(e) => setOfferingSemester(e.target.value)}
-            placeholder="Enter offering semester (e.g. 1, 2)"
-          />
+          <div className="relative">
+            <select
+              value={offeringSemester}
+              onChange={(e) => setOfferingSemester(e.target.value)}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
+            >
+              <option value="" disabled>Select Offering Semester</option>
+              <option value="1">Semester 1</option>
+              <option value="2">Semester 2</option>
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
+
+
+
 
         <Button type="submit" className="bg-black text-white px-8 py-2 rounded-lg text-lg hover:bg-black/90">
           Save

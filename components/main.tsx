@@ -6,21 +6,24 @@ import { Bell, Grid, Search } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
 import { Sidebar } from "./ui/sidebar"
-import VenueForm from "./forms/venue-form"
+import {VenueForm} from "./forms/venue-form"
+import  {VenueTypeForm}  from "./forms/venue-type-form"
 import { UnitForm } from "./forms/unit-form"
 import { UnitOfferingForm } from "./forms/unit-offering-form"
 import { PositionForm } from "./forms/position-form"
 import { StudentForm } from "./forms/student-form"
 import { EducatorForm } from "./forms/educator-form"
 import { EducatorAvailabilityForm } from "./forms/educator-availability-form"
+import {EducatorUnitOfferingForm} from "./forms/educator-unit-offering-form"
 import { Dashboard } from "./dashboard/dashboard"
 import { CourseForm } from "./forms/course-form"
 import { UnitOfferingClassDetailsForm } from "./forms/unit-offering-class-form"
-import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form" // ✅ Step 1
+import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form"
 
 type ActiveView =
   | "dashboard"
   | "venue"
+  | "venue-type"
   | "course"
   | "unit"
   | "unit-offering"
@@ -29,7 +32,8 @@ type ActiveView =
   | "student"
   | "educator"
   | "educator-availability"
-  | "course-unit-offering" // ✅ Step 2
+  | "educator-unit-offering"
+  | "course-unit-offering" 
   | "general"
 
 export function FileManager() {
@@ -41,6 +45,8 @@ export function FileManager() {
         return <Dashboard />
       case "venue":
         return <VenueForm />
+      case "venue-type":
+        return <VenueTypeForm />
       case "course":
         return <CourseForm />
       case "unit":
@@ -57,7 +63,9 @@ export function FileManager() {
         return <EducatorForm />
       case "educator-availability":
         return <EducatorAvailabilityForm />
-      case "course-unit-offering": // ✅ Step 3
+      case "educator-unit-offering":
+        return <EducatorUnitOfferingForm />
+      case "course-unit-offering": 
         return <CourseUnitOfferingForm />
       default:
         return <div className="p-8">Content for {activeView}</div>

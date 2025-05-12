@@ -10,7 +10,8 @@ import { Sidebar } from "./ui/sidebar"
 // import type { ActiveView } from "./ui/sidebar"
 import { Timetable } from "./timetable"
 import { Dashboard } from "./dashboard/dashboard"
-import VenueForm from "./forms/venue-form"
+import {VenueForm} from "./forms/venue-form"
+import {VenueTypeForm} from "./forms/venue-type-form"
 import { CourseForm } from "./forms/course-form"
 import { UnitForm } from "./forms/unit-form"
 import { UnitOfferingForm } from "./forms/unit-offering-form"
@@ -19,6 +20,7 @@ import { PositionForm } from "./forms/position-form"
 import { StudentForm } from "./forms/student-form"
 import { EducatorForm } from "./forms/educator-form"
 import { EducatorAvailabilityForm } from "./forms/educator-availability-form"
+import { EducatorUnitOfferingForm } from "./forms/educator-unit-offering-form"
 import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form"
 
 function FileCard({ title, metadata, thumbnail }: { title: string; metadata: string; thumbnail: string }) {
@@ -57,6 +59,8 @@ export function FileManager() {
         return <Dashboard />
       case "venue":
         return <VenueForm />
+      case "venue-type":
+        return <VenueTypeForm />
       case "course":
         return <CourseForm />
       case "unit":
@@ -73,6 +77,8 @@ export function FileManager() {
         return <EducatorForm />
       case "educator-availability":
         return <EducatorAvailabilityForm />
+      case "educator-unit-offering":
+        return <EducatorUnitOfferingForm />
       case "course-unit-offering":
         return <CourseUnitOfferingForm/>
       default:
@@ -87,31 +93,7 @@ export function FileManager() {
 
       {/* Main content */}
       <div className="flex-1 flex flex-col">
-        <header className="flex items-center justify-between border-b px-6 py-4">
-          <div className="w-96">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-              <Input type="search" placeholder="Search files..." className="pl-9" />
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon">
-              <Grid className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Bell className="h-4 w-4" />
-            </Button>
-            <div className="h-8 w-8 overflow-hidden rounded-full">
-              <Image
-                src="/placeholder.svg"
-                alt="Avatar"
-                width={32}
-                height={32}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-        </header>
+
 
         {
         showTimetable ? (

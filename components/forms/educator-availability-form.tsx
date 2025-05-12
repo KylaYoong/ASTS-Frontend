@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import * as React from "react";
+import { time } from "console";
 
 export function EducatorAvailabilityForm() {
   const [staffId, setStaffId] = useState("");
@@ -14,7 +15,7 @@ export function EducatorAvailabilityForm() {
 
   // Generate years for dropdown (current year and 5 years into the future)
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 6 }, (_, i) => currentYear + i);
+  const years = Array.from({ length: 5 }, (_, i) => currentYear + i);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,7 +65,7 @@ export function EducatorAvailabilityForm() {
 
   return (
     <div className="p-4">
-      <div className="flex items-center justify-between mb-8">
+      {/* <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-semibold">Educator Availability</h1>
         <Button variant="outline" className="gap-2">
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -77,7 +78,7 @@ export function EducatorAvailabilityForm() {
           </svg>
           Upload
         </Button>
-      </div>
+      </div> */}
 
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
@@ -85,7 +86,7 @@ export function EducatorAvailabilityForm() {
           <Input
             value={staffId}
             onChange={(e) => setStaffId(e.target.value)}
-            placeholder="Enter staff ID"
+            placeholder="Enter Staff ID"
             className="w-full rounded-lg text-lg p-3"
           />
         </div>
@@ -96,9 +97,9 @@ export function EducatorAvailabilityForm() {
             <select
               value={availableYear}
               onChange={(e) => setAvailableYear(e.target.value)}
-              className="w-full rounded-lg text-lg p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent appearance-none"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
             >
-              <option value="" disabled>Select year</option>
+              <option value="" disabled>Select Year</option>
               {years.map((year) => (
                 <option key={year} value={year.toString()}>
                   {year}
@@ -119,13 +120,11 @@ export function EducatorAvailabilityForm() {
             <select
               value={availableSemester}
               onChange={(e) => setAvailableSemester(e.target.value)}
-              className="w-full rounded-lg text-lg p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent appearance-none"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
             >
-              <option value="" disabled>Select semester</option>
+              <option value="" disabled>Select Semester</option>
               <option value="1">Semester 1</option>
               <option value="2">Semester 2</option>
-              <option value="summer">Summer</option>
-              <option value="winter">Winter</option>
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
               <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -141,14 +140,14 @@ export function EducatorAvailabilityForm() {
             <select
               value={availableDay}
               onChange={(e) => setAvailableDay(e.target.value)}
-              className="w-full rounded-lg text-lg p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent appearance-none"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
             >
-              <option value="" disabled>Select day</option>
-              <option value="monday">Monday</option>
-              <option value="tuesday">Tuesday</option>
-              <option value="wednesday">Wednesday</option>
-              <option value="thursday">Thursday</option>
-              <option value="friday">Friday</option>
+              <option value="" disabled>Select Day</option>
+              <option value="1">Monday</option>
+              <option value="2">Tuesday</option>
+              <option value="3">Wednesday</option>
+              <option value="4">Thursday</option>
+              <option value="5">Friday</option>
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
               <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -162,7 +161,10 @@ export function EducatorAvailabilityForm() {
           <label className="text-lg">Start Time:</label>
           <Input
             value={availableStartTime}
-            onChange={(e) => setAvailableStartTime(e.target.value)}
+            onChange={(e) => {
+              const timeValue = e.target.value;
+              setAvailableStartTime(timeValue);
+            }}
             placeholder="Enter start time"
             type="time"
             className="w-full rounded-lg text-lg p-3"

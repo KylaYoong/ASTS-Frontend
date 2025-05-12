@@ -12,6 +12,9 @@ export function UnitOfferingClassDetailsForm() {
   const [numberOfStudents, setNumberOfStudents] = useState("");
   const [message, setMessage] = useState("");
 
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear + i);
+
   // Handle Form Submission
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -59,7 +62,7 @@ export function UnitOfferingClassDetailsForm() {
 
   return (
     <div className="p-4">
-      <div className="flex items-center justify-between mb-8">
+      {/* <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-semibold">Unit Offering Class Details</h1>
         <Button variant="outline" className="gap-2">
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -72,7 +75,7 @@ export function UnitOfferingClassDetailsForm() {
           </svg>
           Upload
         </Button>
-      </div>
+      </div> */}
 
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
@@ -86,56 +89,86 @@ export function UnitOfferingClassDetailsForm() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-lg">Offering Year:</label>
-          <Input
-            type="number"
-            value={offeringYear}
-            onChange={(e) => setOfferingYear(e.target.value)}
-            placeholder="Enter offering year (e.g., 2025)"
-            className="w-full rounded-lg text-lg p-3"
-          />
+          <label className="text-lg">Year:</label>
+          <div className="relative">
+            <select
+              value={offeringYear}
+              onChange={(e) => setOfferingYear(e.target.value)}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
+            >
+              <option value="" disabled>Select Year</option>
+              {years.map((year) => (
+                <option key={year} value={year.toString()}>
+                  {year}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label className="text-lg">Offering Semester:</label>
-          <Input
-            type="text"
-            value={offeringSemester}
-            onChange={(e) => setOfferingSemester(e.target.value)}
-            placeholder="Enter offering semester (e.g., 1, 2, Summer, Winter)"
-            className="w-full rounded-lg text-lg p-3"
-          />
+          <label className="text-lg">Semester:</label>
+          <div className="relative">
+            <select
+              value={offeringSemester}
+              onChange={(e) => setOfferingSemester(e.target.value)}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
+            >
+              <option value="" disabled>Select Semester</option>
+              <option value="1">Semester 1</option>
+              <option value="2">Semester 2</option>
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-2">
           <label className="text-lg">Class Type:</label>
-          <Input
-            type="text"
-            value={classType}
-            onChange={(e) => setClassType(e.target.value)}
-            placeholder="Enter class type (e.g., WORKSHOP, TUTORIAL)"
-            className="w-full rounded-lg text-lg p-3"
-          />
+          <div className="relative">
+            <select
+              value={classType}
+              onChange={(e) => setClassType(e.target.value)}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
+            >
+              <option value="" disabled>Select Class Type</option>
+              <option value="WORKSHOP">Workshop</option>
+              <option value="TUTORIAL">Tutorial</option>
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label className="text-lg">Class Duration (in minutes):</label>
+          <label className="text-lg">Class Duration (In minutes):</label>
           <Input
             type="number"
             value={classDuration}
             onChange={(e) => setClassDuration(e.target.value)}
-            placeholder="Enter class duration"
+            placeholder="Enter Class Duration"
             className="w-full rounded-lg text-lg p-3"
           />
         </div>
 
         <div className="space-y-2">
-          <label className="text-lg">Number of Students:</label>
+          <label className="text-lg">Total Number of Students:</label>
           <Input
             type="number"
             value={numberOfStudents}
             onChange={(e) => setNumberOfStudents(e.target.value)}
-            placeholder="Enter number of students"
+            placeholder="Enter Number of Students"
             className="w-full rounded-lg text-lg p-3"
           />
         </div>
