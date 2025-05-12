@@ -18,7 +18,7 @@ export type ActiveView =
   | "educator"
   | "educator-availability"
   | "educator-unit-offering"
-  | "general" 
+  | "general" // Added general for timetable view
   | "educator-query"
   | "student-query"
   | "unit-query"
@@ -140,10 +140,13 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
           >
             Educator Availability
           </FolderItem>
-          <FolderItem 
-            onClick={() => setActiveView("student")} 
-            active={activeView === "student"}
-          >
+          <FolderItem onClick={() => setActiveView("educator-unit-offering")} active={activeView === "educator-unit-offering"}>
+            Educator Unit Offering
+          </FolderItem>
+          <FolderItem onClick={() => setActiveView("position")} active={activeView === "position"}>
+            Position
+          </FolderItem>
+          <FolderItem onClick={() => setActiveView("student")} active={activeView === "student"}>
             Student
           </FolderItem>
           <FolderItem 
@@ -170,6 +173,7 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
           >  
             Course Unit Offering
           </FolderItem>
+          
 
           </div>
         </div>
