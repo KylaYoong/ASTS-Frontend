@@ -87,7 +87,7 @@ export function EducatorUnitOfferingForm() {
               <Input
                 value={unit.unitCode}
                 onChange={(e) => handleUnitChange(index, "unitCode", e.target.value)}
-                placeholder="Enter unit code"
+                placeholder="Enter Unit Code"
                 className="w-full rounded-lg text-lg p-3"
               />
             </div>
@@ -97,7 +97,7 @@ export function EducatorUnitOfferingForm() {
               <Input
                 value={unit.offeringYear}
                 onChange={(e) => handleUnitChange(index, "offeringYear", e.target.value)}
-                placeholder="Enter offering year"
+                placeholder="Enter Offering Year"
                 className="w-full rounded-lg text-lg p-3"
               />
             </div>
@@ -107,7 +107,7 @@ export function EducatorUnitOfferingForm() {
               <Input
                 value={unit.offeringSemester}
                 onChange={(e) => handleUnitChange(index, "offeringSemester", e.target.value)}
-                placeholder="Enter offering semester"
+                placeholder="Enter Offering Semester"
                 className="w-full rounded-lg text-lg p-3"
               />
             </div>
