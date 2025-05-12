@@ -140,12 +140,7 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
           >
             Educator Availability
           </FolderItem>
-          <FolderItem onClick={() => setActiveView("educator-unit-offering")} active={activeView === "educator-unit-offering"}>
-            Educator Unit Offering
-          </FolderItem>
-          <FolderItem onClick={() => setActiveView("position")} active={activeView === "position"}>
-            Position
-          </FolderItem>
+
           <FolderItem onClick={() => setActiveView("student")} active={activeView === "student"}>
             Student
           </FolderItem>

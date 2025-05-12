@@ -154,7 +154,7 @@ export function VenueForm() {
             type="number"
             value={capacity}
             onChange={(e) => setCapacity(e.target.value)}
-            placeholder="Enter C  apacity"
+            placeholder="Enter Capacity"
           />
         </div>
 

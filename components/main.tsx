@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Button } from "@/components/ui/button"
@@ -19,7 +20,6 @@ import { Dashboard } from "./dashboard/dashboard"
 import { CourseForm } from "./forms/course-form"
 import { UnitOfferingClassDetailsForm } from "./forms/unit-offering-class-form"
 import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form"
-import { EducatorUnitOfferingForm } from "./forms/educator-unit-offering-form"
 
 type ActiveView =
   | "dashboard"
@@ -33,8 +33,9 @@ type ActiveView =
   | "student"
   | "educator"
   | "educator-availability"
-  | "course-unit-offering"
+  | "course-unit-offering" 
   | "educator-unit-offering"
+  | "course-unit-offering" 
   | "general"
 
 export function FileManager() {
@@ -64,10 +65,10 @@ export function FileManager() {
         return <EducatorForm />
       case "educator-availability":
         return <EducatorAvailabilityForm />
+      case "educator-unit-offering":
+        return <EducatorUnitOfferingForm />
       case "course-unit-offering": 
         return <CourseUnitOfferingForm />
-      case "educator-unit-offering":
-        return <EducatorUnitOfferingForm/>
       default:
         return <div className="p-8">Content for {activeView}</div>
     }

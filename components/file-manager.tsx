@@ -22,8 +22,6 @@ import { EducatorForm } from "./forms/educator-form"
 import { EducatorAvailabilityForm } from "./forms/educator-availability-form"
 import { EducatorUnitOfferingForm } from "./forms/educator-unit-offering-form"
 import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form"
-import { EducatorUnitOfferingForm } from "./forms/educator-unit-offering-form"
-
 
 function FileCard({ title, metadata, thumbnail }: { title: string; metadata: string; thumbnail: string }) {
   return (
@@ -47,7 +45,7 @@ function FileCard({ title, metadata, thumbnail }: { title: string; metadata: str
 
 export function FileManager() {
   const [activeView, setActiveView] = useState<ActiveView>("dashboard")
-  
+
   // Determine if we should show the timetable view
   const showTimetable = activeView === "general"
 
@@ -83,9 +81,6 @@ export function FileManager() {
         return <EducatorUnitOfferingForm />
       case "course-unit-offering":
         return <CourseUnitOfferingForm/>
-      case "educator-unit-offering":
-        return <EducatorUnitOfferingForm/>
-
       default:
         return <div>Content for {activeView}</div>
     }
@@ -99,7 +94,6 @@ export function FileManager() {
       {/* Main content */}
       <div className="flex-1 flex flex-col">
 
-
         {
         showTimetable ? (
           <Timetable />
@@ -112,9 +106,7 @@ export function FileManager() {
             {activeView === "dashboard" && (
               <>
                 <div className="mb-6 flex items-center gap-4">
-                
-
-
+\
                 </div>
 
               </>
@@ -125,5 +117,3 @@ export function FileManager() {
     </div>
   )
 }
-
-export default FileManager
