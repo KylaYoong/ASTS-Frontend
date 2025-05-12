@@ -73,7 +73,7 @@ export function UnitForm() {
           <Input 
             value={unitCode} 
             onChange={(e) => setUnitCode(e.target.value)} 
-            placeholder="Enter unit code"
+            placeholder="Enter Unit Code (Eg. FIT9136)"
           />
         </div>
 
@@ -82,7 +82,7 @@ export function UnitForm() {
           <Input 
             value={unitName} 
             onChange={(e) => setUnitName(e.target.value)} 
-            placeholder="Enter unit name"
+            placeholder="Enter Unit Name"
           />
         </div>
 
@@ -91,8 +91,13 @@ export function UnitForm() {
           <Input 
             type="number" 
             value={unitLevel} 
-            onChange={(e) => setUnitLevel(e.target.value)} 
-            placeholder="Enter unit level"
+            onChange={(e) => {
+              const value = parseInt(e.target.value, 10);
+              if ((value >= 1 && value <= 10) || e.target.value === "") {
+                setUnitLevel(e.target.value);
+              }
+            }}
+            placeholder="Enter Unit Level (1-10)"
           />
         </div>
 
@@ -101,7 +106,7 @@ export function UnitForm() {
           <Textarea 
             value={unitDescription} 
             onChange={(e) => setUnitDescription(e.target.value)} 
-            placeholder="Enter unit description"
+            placeholder="Enter Unit Description"
           />
         </div>
 
@@ -110,8 +115,13 @@ export function UnitForm() {
           <Input 
             type="number" 
             value={unitCreditPoint} 
-            onChange={(e) => setCreditPoint(e.target.value)} 
-            placeholder="Enter credit point"
+            onChange={(e) => {
+              const value = parseInt(e.target.value, 10);
+              if ((value >= 1 && value <= 20) || e.target.value === "") {
+                setCreditPoint(e.target.value);
+              }
+            }}
+            placeholder="Enter Unit Credit Point (1-20)"
           />
         </div>
 
@@ -120,8 +130,23 @@ export function UnitForm() {
           <Input 
             type="number" 
             value={unitClassHoursPerWeek} 
-            onChange={(e) => setClassHour(e.target.value)} 
-            placeholder="Enter class hours per week"
+            onChange={(e) => {
+              const value = parseInt(e.target.value, 10);
+              if ((value >= 1 && value <= 168) || e.target.value === "") {
+                setClassHour(e.target.value);
+              }
+            }}
+            placeholder="Enter Unit Class Hours Per Week (1 hour - 168 hours)"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-lg">Unit Maximum Enrolment Count:</label>
+          <Input 
+            type="number" 
+            value={unitMaximumEnrolmentCount} 
+            onChange={(e) => setMaxEnrolment(e.target.value)} 
+            placeholder="Enter Unit Max Enrolment Count"
           />
         </div>
 
@@ -137,16 +162,6 @@ export function UnitForm() {
               <Label htmlFor="archived">Discontinued</Label>
             </div>
           </RadioGroup>
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-lg">Unit Maximum Enrolment Count:</label>
-          <Input 
-            type="number" 
-            value={unitMaximumEnrolmentCount} 
-            onChange={(e) => setMaxEnrolment(e.target.value)} 
-            placeholder="Enter max enrolment count"
-          />
         </div>
 
         <Button type="submit" className="bg-black text-white px-8 py-2 rounded-lg text-lg hover:bg-black/90">

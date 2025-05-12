@@ -1,20 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 export function EducatorForm() {
   const [staffId, setStaffId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
+  const [positions, setPositions] = useState<string[]>([]); 
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const fetchPositions = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/asts/info/educator/fetchAllEducatorPositionType",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const responseData = await response.json();
+
+        if (responseData.data) {
+          setPositions(responseData.data); // Store fetched positions in state
+          setMessage("✅ Positions fetched successfully!");
+        } else {
+          setMessage(`❌ Error: ${responseData.resultMessage}`);
+        }
+      } catch (err) {
+        setMessage(`❌ Error: ${err}`);
+      }
+    };
+
+    fetchPositions();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,7 +70,6 @@ export function EducatorForm() {
         setStaffId("");
         setName("");
         setEmail("");
-        setPosition("");
       } else {
         // If no data is returned, show the error message
         setMessage(`❌ Error: ${responseData.resultMessage}`);
@@ -60,7 +82,7 @@ export function EducatorForm() {
 
   return (
     <div className="p-4">
-      <div className="flex items-center justify-between mb-8">
+      {/* <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-semibold">Educator</h1>
         <Button variant="outline" className="gap-2">
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -73,7 +95,7 @@ export function EducatorForm() {
           </svg>
           Upload
         </Button>
-      </div>
+      </div> */}
 
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
@@ -81,7 +103,7 @@ export function EducatorForm() {
           <Input
             value={staffId}
             onChange={(e) => setStaffId(e.target.value)}
-            placeholder="Enter staff ID"
+            placeholder="Enter Staff ID"
             className="w-full rounded-lg text-lg p-3"
           />
         </div>
@@ -91,7 +113,7 @@ export function EducatorForm() {
           <Input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter name"
+            placeholder="Enter Name"
             className="w-full rounded-lg text-lg p-3"
           />
         </div>
@@ -101,26 +123,33 @@ export function EducatorForm() {
           <Input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter email"
+            placeholder="Enter Email"
             type="email"
             className="w-full rounded-lg text-lg p-3"
           />
         </div>
-
+        
         <div className="space-y-2">
           <label className="text-lg">Position:</label>
-          <Select value={position} onValueChange={setPosition}>
-            <SelectTrigger className="w-full rounded-lg text-lg p-3 h-auto">
-              <SelectValue placeholder="Select position" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="professor">Professor</SelectItem>
-              <SelectItem value="associate-professor">Associate Professor</SelectItem>
-              <SelectItem value="senior-lecturer">Senior Lecturer</SelectItem>
-              <SelectItem value="lecturer">Lecturer</SelectItem>
-              <SelectItem value="tutor">Tutor</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="relative">
+            <select
+              value={position}
+              onChange={(e) => setPosition(e.target.value)}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
+            >
+              <option value="" disabled>Select Position</option>
+              {positions.map((pos) => (
+              <option key={pos} value={pos.toString()}>
+                {pos}
+              </option>
+            ))}
+            </select>
+            <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+              <svg className="h-4 w-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         <Button

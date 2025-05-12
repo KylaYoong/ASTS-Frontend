@@ -2,10 +2,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export function PositionForm() {
+export function VenueTypeForm() {
   // State hooks to capture form inputs
-  const [name, setName] = useState("");
-  const [contactHourPerWeek, setContactHourPerWeek] = useState("");
+  const [typeName, setVenueTypeName] = useState("");
   const [message, setMessage] = useState("");
 
   // Handle Form Submission
@@ -13,12 +12,11 @@ export function PositionForm() {
     e.preventDefault();
 
     const payload = {
-      name,
-      contactHourPerWeek,
+        typeName,
     };
 
     try {
-      const response = await fetch("http://localhost:8080/asts/info/educator/position/insert", {
+      const response = await fetch("http://localhost:8080/asts/info/venue/venueType/insert", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,8 +30,7 @@ export function PositionForm() {
         // If the response contains data, it indicates success
         setMessage("✅ Position added successfully!");
         // Reset the form fields
-        setName("");
-        setContactHourPerWeek("");
+        setVenueTypeName("");
       } else {
         // If no data is returned, show the error message
         setMessage(`❌ Error: ${responseData.resultMessage}`);
@@ -47,7 +44,7 @@ export function PositionForm() {
   return (
     <div className="p-4">
       {/* <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-semibold">Position</h1>
+        <h1 className="text-2xl font-semibold">Venue Type</h1>
         <Button variant="outline" className="gap-2">
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path
@@ -65,25 +62,9 @@ export function PositionForm() {
         <div className="space-y-2">
           <label className="text-lg">Name:</label>
           <Input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={typeName}
+            onChange={(e) => setVenueTypeName(e.target.value)}
             placeholder="Enter Position Name"
-            className="w-full rounded-lg text-lg p-3"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-lg">Contact Hours Per Week:</label>
-          <Input
-            type="number"
-            value={contactHourPerWeek}
-            onChange={(e) => {
-              const value = parseInt(e.target.value, 10);
-              if (value >= 1 && value <= 168 || e.target.value === "") {
-                setContactHourPerWeek(e.target.value);
-              }
-            }}
-            placeholder="Enter Contact Hours (1 hour - 168 hours)"
             className="w-full rounded-lg text-lg p-3"
           />
         </div>

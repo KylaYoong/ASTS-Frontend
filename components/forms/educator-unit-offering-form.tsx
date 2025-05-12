@@ -1,5 +1,5 @@
-"use client";
 
+"use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,7 +50,6 @@ export function EducatorUnitOfferingForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
       const responseData = await response.json();
 
       if (responseData.data) {
@@ -139,5 +138,4 @@ export function EducatorUnitOfferingForm() {
     </div>
   );
 }
-
 export default EducatorUnitOfferingForm;

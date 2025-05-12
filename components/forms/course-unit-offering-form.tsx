@@ -13,6 +13,9 @@ export function CourseUnitOfferingForm() {
 
   type UnitField = "unitCode" | "year" | "semester";
 
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 6 }, (_, i) => currentYear - 1 + i);
+
   const handleUnitChange = (index: number, field: UnitField, value: string) => {
     const updated = [...units];
     updated[index][field] = value;
@@ -81,9 +84,61 @@ export function CourseUnitOfferingForm() {
           <Input
             value={courseCode}
             onChange={(e) => setCourseCode(e.target.value)}
-            placeholder="Enter course code"
+            placeholder="Enter Course Code"
             className="w-full rounded-lg text-lg p-3"
           />
+        </div>
+        
+        <div className="space-y-2">
+        <label className="text-lg">Course Enrol Year:</label>
+        <div className="relative">
+          <select
+            value={enrolYear}
+            onChange={(e) => setEnrolYear(e.target.value)}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
+          >
+            <option value="" disabled>Select Course Enrol Year</option>
+            {years.map((enrolYear) => (
+              <option key={enrolYear} value={enrolYear.toString()}>
+                {enrolYear}
+              </option>
+            ))}
+          </select>
+          <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+            <svg className="h-4 w-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+            </div>
+          </div>
+        </div>
+    
+        <div className="space-y-2">
+          <label className="text-lg">Course Enrol Semester:</label>
+          <div className="relative">
+            <select
+              value={enrolSemester}
+              onChange={(e) => setEnrolSemester(e.target.value)}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
+            >
+              <option value="" disabled>Select Course Enrol Semester</option>
+              <option value="1">Semester 1</option>
+              <option value="2">Semester 2</option>
+            </select>
+            <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+              <svg className="h-4 w-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id="cognate"
+            checked={cognate}
+            onCheckedChange={(val) => setCognate(Boolean(val))}
+          />
+          <label htmlFor="cognate" className="text-lg">Cognate</label>
         </div>
 
         {units.map((unit, index) => (
@@ -93,29 +148,52 @@ export function CourseUnitOfferingForm() {
               <Input
                 value={unit.unitCode}
                 onChange={(e) => handleUnitChange(index, "unitCode", e.target.value)}
-                placeholder="Enter unit code"
+                placeholder="Enter Unit Code"
                 className="w-full rounded-lg text-lg p-3"
               />
             </div>
 
-            <div className="space-y-2">
+          <div className="space-y-2">
               <label className="text-lg">Offering Year:</label>
-              <Input
-                value={unit.year}
-                onChange={(e) => handleUnitChange(index, "year", e.target.value)}
-                placeholder="Enter offering year"
-                className="w-full rounded-lg text-lg p-3"
-              />
+              <div className="relative">
+                <select
+                  value={unit.year}
+                  onChange={(e) => handleUnitChange(index, "year", e.target.value)}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
+                >
+                  <option value="" disabled>Select Offering Year</option>
+                  {years.map((year) => (
+                    <option key={year} value={year.toString()}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-2">
               <label className="text-lg">Offering Semester:</label>
-              <Input
-                value={unit.semester}
-                onChange={(e) => handleUnitChange(index, "semester", e.target.value)}
-                placeholder="Enter offering semester"
-                className="w-full rounded-lg text-lg p-3"
-              />
+              <div className="relative">
+                <select
+                  value={unit.semester}
+                  onChange={(e) => handleUnitChange(index, "semester", e.target.value)}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
+                >
+                  <option value="" disabled>Select Offering Semester</option>
+                  <option value="1">Semester 1</option>
+                  <option value="2">Semester 2</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
             </div>
 
             {units.length > 1 && (
@@ -131,44 +209,17 @@ export function CourseUnitOfferingForm() {
           </div>
         ))}
 
+      <div className="flex flex-col gap-2 w-fit">
         <Button type="button" variant="outline" onClick={addUnitField}>
           ➕ Add another unit
         </Button>
-
-        <div className="space-y-2">
-          <label className="text-lg">Enrol Year:</label>
-          <Input
-            value={enrolYear}
-            onChange={(e) => setEnrolYear(e.target.value)}
-            placeholder="Enter enrol year"
-            className="w-full rounded-lg text-lg p-3"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-lg">Enrol Semester:</label>
-          <Input
-            value={enrolSemester}
-            onChange={(e) => setEnrolSemester(e.target.value)}
-            placeholder="Enter enrol semester"
-            className="w-full rounded-lg text-lg p-3"
-          />
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Checkbox
-            id="cognate"
-            checked={cognate}
-            onCheckedChange={(val) => setCognate(Boolean(val))}
-          />
-          <label htmlFor="cognate" className="text-lg">Cognate</label>
-        </div>
-
         <Button type="submit" className="bg-black text-white px-8 py-2 rounded-lg text-lg hover:bg-black/90">
           Save
         </Button>
+      </div>
       </form>
 
+      
       {message && <p className="text-base mt-4">{message}</p>}
     </div>
   );
