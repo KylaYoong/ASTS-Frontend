@@ -22,7 +22,6 @@ import { EducatorForm } from "./forms/educator-form"
 import { EducatorAvailabilityForm } from "./forms/educator-availability-form"
 import { EducatorUnitOfferingForm } from "./forms/educator-unit-offering-form"
 import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form"
-import { SelectYearSemesterForm } from "./query/select-year-semester"
 import { GeneralTimetable } from "./query/general-timetable"
 import { EducatorTimetable } from "./query/educator-timetable"
 
@@ -85,7 +84,7 @@ export function ASTSViewManager() {
       case "course-unit-offering":
         return <CourseUnitOfferingForm/>
       case "select-year-semester":
-        return <SelectYearSemesterForm />
+        return <GeneralTimetable />
       case "general-timetable":
         return <GeneralTimetable />
       case "educator-timetable":

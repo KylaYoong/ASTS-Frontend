@@ -175,13 +175,6 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
         <div className="py-3">
           <div className="px-3 text-xs font-medium uppercase text-gray-500">Query</div>
           <div className="mt-2">
-
-           <FolderItem 
-            onClick ={() => setActiveView("select-year-semester")} 
-            active = {activeView === "select-year-semester"}
-          >  
-            Select Year & Semester
-          </FolderItem>
             
           <FolderItem 
             onClick ={() => setActiveView("general-timetable")} 
