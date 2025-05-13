@@ -7,7 +7,7 @@ import { Bell, Grid, Plus, Search } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
 import { Sidebar } from "./ui/sidebar"
-// import type { ActiveView } from "./ui/sidebar"
+import type { ActiveView } from "./ui/sidebar"
 import { Timetable } from "./timetable"
 import { Dashboard } from "./dashboard/dashboard"
 import {VenueForm} from "./forms/venue-form"
@@ -106,7 +106,7 @@ export function FileManager() {
             {activeView === "dashboard" && (
               <>
                 <div className="mb-6 flex items-center gap-4">
-\
+
                 </div>
 
               </>
