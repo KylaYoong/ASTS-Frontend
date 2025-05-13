@@ -197,13 +197,6 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
             Educator Timetable
           </FolderItem>
 
-          <FolderItem 
-            onClick ={() => setActiveView("student-timetable")} 
-            active = {activeView === "student-timetable"}
-          >  
-            Student Timetable
-          </FolderItem>
-
           </div>
         </div>
       </nav>

@@ -90,8 +90,6 @@ export function ASTSViewManager() {
         return <GeneralTimetable />
       case "educator-timetable":
         return <EducatorTimetable />
-      case "student-timetable":
-        return <div>Student Timetable</div>
       default:
         return <div>Content for {activeView}</div>
     }
