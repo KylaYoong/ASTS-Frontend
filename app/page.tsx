@@ -1,9 +1,9 @@
 "use client"
 
-import { FileManager } from "@/components/file-manager"
+import { ASTSViewManager } from "@/components/asts-view-manager"
 
 export default function Home() {
   return (
-    <FileManager />
+    <ASTSViewManager />
   )
 }

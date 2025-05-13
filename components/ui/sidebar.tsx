@@ -18,9 +18,10 @@ export type ActiveView =
   | "educator"
   | "educator-availability"
   | "educator-unit-offering"
-  | "general" // Added general for timetable view
-  | "educator-query"
-  | "student-query"
+  | "select-year-semester"
+  | "general-timetable"
+  | "educator-timetable"
+  | "student-timetable"
 
 interface SidebarProps {
   activeView: ActiveView
@@ -174,15 +175,35 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
         <div className="py-3">
           <div className="px-3 text-xs font-medium uppercase text-gray-500">Query</div>
           <div className="mt-2">
-          <FolderItem onClick={() => setActiveView("general")} active={activeView === "general"}>
-              General
-            </FolderItem>
-            <FolderItem onClick={() => setActiveView("educator-query")} active={activeView === "educator-query"}>
-              Educator
-            </FolderItem>
-            <FolderItem onClick={() => setActiveView("student-query")} active={activeView === "student-query"}>
-              Student
-            </FolderItem>
+
+           <FolderItem 
+            onClick ={() => setActiveView("select-year-semester")} 
+            active = {activeView === "select-year-semester"}
+          >  
+            Select Year & Semester
+          </FolderItem>
+            
+          <FolderItem 
+            onClick ={() => setActiveView("general-timetable")} 
+            active = {activeView === "general-timetable"}
+          >  
+            General Timetable
+          </FolderItem>
+
+          <FolderItem 
+            onClick ={() => setActiveView("educator-timetable")} 
+            active = {activeView === "educator-timetable"}
+          >  
+            Educator Timetable
+          </FolderItem>
+
+          <FolderItem 
+            onClick ={() => setActiveView("student-timetable")} 
+            active = {activeView === "student-timetable"}
+          >  
+            Student Timetable
+          </FolderItem>
+
           </div>
         </div>
       </nav>

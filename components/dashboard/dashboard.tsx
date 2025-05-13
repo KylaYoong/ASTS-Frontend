@@ -29,8 +29,8 @@ export function Dashboard() {
       subSteps: [
         "Go to the 'Educator' section and search for the educator by their ID to obtain the timetable.",
         "Go to the 'Student' section and search for the student by their ID to obtain the timetable.",
-        "Go to the 'Unit' section and search for the unit by its unit code to obtain the timetable.",
-        "Go to the 'Venue' section and search for the venue by its name to obtain the timetable.",
+        // "Go to the 'Unit' section and search for the unit by its unit code to obtain the timetable.",
+        // "Go to the 'Venue' section and search for the venue by its name to obtain the timetable.",
       ],
     },
   ];

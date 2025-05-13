@@ -22,6 +22,9 @@ import { EducatorForm } from "./forms/educator-form"
 import { EducatorAvailabilityForm } from "./forms/educator-availability-form"
 import { EducatorUnitOfferingForm } from "./forms/educator-unit-offering-form"
 import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form"
+import { SelectYearSemesterForm } from "./query/select-year-semester"
+import { GeneralTimetable } from "./query/general-timetable"
+import { EducatorTimetable } from "./query/educator-timetable"
 
 function FileCard({ title, metadata, thumbnail }: { title: string; metadata: string; thumbnail: string }) {
   return (
@@ -43,15 +46,15 @@ function FileCard({ title, metadata, thumbnail }: { title: string; metadata: str
   )
 }
 
-export function FileManager() {
+export function ASTSViewManager() {
   const [activeView, setActiveView] = useState<ActiveView>("dashboard")
 
   // Determine if we should show the timetable view
-  const showTimetable = activeView === "general"
+  // const showTimetable = activeView === "general"
 
-  // For debugging
-  console.log("Current activeView:", activeView)
-  console.log("Should show timetable:", showTimetable)
+  // // For debugging
+  // console.log("Current activeView:", activeView)
+  // console.log("Should show timetable:", showTimetable)
 
   const renderFormContent = () => {
     switch (activeView) {
@@ -81,6 +84,14 @@ export function FileManager() {
         return <EducatorUnitOfferingForm />
       case "course-unit-offering":
         return <CourseUnitOfferingForm/>
+      case "select-year-semester":
+        return <SelectYearSemesterForm />
+      case "general-timetable":
+        return <GeneralTimetable />
+      case "educator-timetable":
+        return <EducatorTimetable />
+      case "student-timetable":
+        return <div>Student Timetable</div>
       default:
         return <div>Content for {activeView}</div>
     }
@@ -93,26 +104,9 @@ export function FileManager() {
 
       {/* Main content */}
       <div className="flex-1 flex flex-col">
-
-        {
-        showTimetable ? (
-          <Timetable />
-        ) 
-        : 
-        (
-          <div className="p-6">
-            {renderFormContent()}
-
-            {activeView === "dashboard" && (
-              <>
-                <div className="mb-6 flex items-center gap-4">
-
-                </div>
-
-              </>
-            )}
-          </div>
-        )}
+        <div className="p-6">
+          {renderFormContent()}
+        </div>
       </div>
     </div>
   )

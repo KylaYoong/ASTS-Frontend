@@ -1,4 +1,4 @@
-import { FileManager } from "@/components/main"
+import { ASTSViewManager } from "@/components/main"
 import "@/app/globals.css"
 import type { Metadata } from "next"
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 //   return (
 //     <html lang="en">
 //       <body>
-//         <FileManager />
+//         <ASTSViewManager />
 //       </body>
 //     </html>
 //   )
