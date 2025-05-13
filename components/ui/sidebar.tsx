@@ -22,6 +22,7 @@ export type ActiveView =
   | "general-timetable"
   | "educator-timetable"
   | "student-timetable"
+  | "generate-timetable"
 
 interface SidebarProps {
   activeView: ActiveView
@@ -175,6 +176,13 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
         <div className="py-3">
           <div className="px-3 text-xs font-medium uppercase text-gray-500">Query</div>
           <div className="mt-2">
+
+          <FolderItem 
+            onClick ={() => setActiveView("generate-timetable")} 
+            active = {activeView === "generate-timetable"}
+          >  
+            Generate Timetable
+          </FolderItem>
             
           <FolderItem 
             onClick ={() => setActiveView("general-timetable")} 

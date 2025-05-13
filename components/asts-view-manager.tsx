@@ -8,7 +8,6 @@ import Image from "next/image"
 import { useState } from "react"
 import { Sidebar } from "./ui/sidebar"
 import type { ActiveView } from "./ui/sidebar"
-import { Timetable } from "./timetable"
 import { Dashboard } from "./dashboard/dashboard"
 import {VenueForm} from "./forms/venue-form"
 import {VenueTypeForm} from "./forms/venue-type-form"
@@ -24,6 +23,7 @@ import { EducatorUnitOfferingForm } from "./forms/educator-unit-offering-form"
 import { CourseUnitOfferingForm } from "./forms/course-unit-offering-form"
 import { GeneralTimetable } from "./query/general-timetable"
 import { EducatorTimetable } from "./query/educator-timetable"
+import { GenerateTimetable } from "./query/generate-timetable"
 
 function FileCard({ title, metadata, thumbnail }: { title: string; metadata: string; thumbnail: string }) {
   return (
@@ -89,6 +89,9 @@ export function ASTSViewManager() {
         return <GeneralTimetable />
       case "educator-timetable":
         return <EducatorTimetable />
+      case "generate-timetable":
+        return <GenerateTimetable/>
+      
       default:
         return <div>Content for {activeView}</div>
     }
