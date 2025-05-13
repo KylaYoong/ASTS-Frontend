@@ -21,7 +21,6 @@ export type ActiveView =
   | "select-year-semester"
   | "general-timetable"
   | "educator-timetable"
-  | "student-timetable"
 
 interface SidebarProps {
   activeView: ActiveView
@@ -167,8 +166,6 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
           >  
             Course Unit Offering
           </FolderItem>
-          
-
           </div>
         </div>
 
