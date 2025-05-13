@@ -21,8 +21,6 @@ export type ActiveView =
   | "general" // Added general for timetable view
   | "educator-query"
   | "student-query"
-  | "unit-query"
-  | "venue-query"
 
 interface SidebarProps {
   activeView: ActiveView
@@ -184,12 +182,6 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
             </FolderItem>
             <FolderItem onClick={() => setActiveView("student-query")} active={activeView === "student-query"}>
               Student
-            </FolderItem>
-            <FolderItem onClick={() => setActiveView("unit-query")} active={activeView === "unit-query"}>
-              Unit
-            </FolderItem>
-            <FolderItem onClick={() => setActiveView("venue-query")} active={activeView === "venue-query"}>
-              Venue
             </FolderItem>
           </div>
         </div>
