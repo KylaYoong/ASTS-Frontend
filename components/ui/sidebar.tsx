@@ -14,7 +14,6 @@ export type ActiveView =
   | "unit-offering"
   | "unit-offering-class-details"
   | "position"
-  | "student"
   | "educator"
   | "educator-availability"
   | "educator-unit-offering"
@@ -140,9 +139,6 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
             Educator Availability
           </FolderItem>
 
-          <FolderItem onClick={() => setActiveView("student")} active={activeView === "student"}>
-            Student
-          </FolderItem>
           <FolderItem 
             onClick={() => setActiveView("unit-offering")} 
             active={activeView === "unit-offering"}

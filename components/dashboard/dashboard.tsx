@@ -23,14 +23,11 @@ export function Dashboard() {
       ],
     },
     "After inserting all the data, go to the 'Query' section in the sidebar.",
-    "To view a general timetable which includes all of the data for the selected year and semester, click on 'General'.",
+    "To view a general timetable which includes all of the data for the selected year and semester, click on 'General Timetable'.",
     {
       main: "To view a specific timetable, click on the corresponding section in the sidebar.",
       subSteps: [
         "Go to the 'Educator' section and search for the educator by their ID to obtain the timetable.",
-        "Go to the 'Student' section and search for the student by their ID to obtain the timetable.",
-        // "Go to the 'Unit' section and search for the unit by its unit code to obtain the timetable.",
-        // "Go to the 'Venue' section and search for the venue by its name to obtain the timetable.",
       ],
     },
   ];

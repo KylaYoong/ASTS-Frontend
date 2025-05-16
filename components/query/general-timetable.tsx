@@ -255,7 +255,7 @@ export function GeneralTimetable() {
                 : "bg-black hover:bg-black/90"
             }`}
           >
-            {isLoading ? "Loading..." : "Generate Timetable"}
+            {isLoading ? "Loading..." : "Query Timetable"}
           </Button>
 
           <div className="flex items-center space-x-2">

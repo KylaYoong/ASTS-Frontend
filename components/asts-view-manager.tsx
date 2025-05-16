@@ -16,7 +16,6 @@ import { UnitForm } from "./forms/unit-form"
 import { UnitOfferingForm } from "./forms/unit-offering-form"
 import { UnitOfferingClassDetailsForm } from "./forms/unit-offering-class-form"
 import { PositionForm } from "./forms/position-form"
-import { StudentForm } from "./forms/student-form"
 import { EducatorForm } from "./forms/educator-form"
 import { EducatorAvailabilityForm } from "./forms/educator-availability-form"
 import { EducatorUnitOfferingForm } from "./forms/educator-unit-offering-form"
@@ -73,8 +72,6 @@ export function ASTSViewManager() {
         return <UnitOfferingClassDetailsForm />
       case "position":   
         return <PositionForm />
-      case "student":
-        return <StudentForm />
       case "educator":
         return <EducatorForm />
       case "educator-availability":

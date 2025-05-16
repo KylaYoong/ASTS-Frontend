@@ -92,7 +92,7 @@ export function GenerateTimetable() {
               : "bg-black hover:bg-black/90"
           }`}
         >
-          {isLoading ? "Generating..." : "Generate Timetable"}
+          {isLoading ? "Generating..." : "Query Timetable"}
         </Button>
       </div>
 
