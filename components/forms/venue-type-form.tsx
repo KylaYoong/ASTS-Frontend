@@ -51,7 +51,7 @@ export function VenueTypeForm() {
           <Input
             value={typeName}
             onChange={(e) => setVenueTypeName(e.target.value)}
-            placeholder="Enter Position Name"
+            placeholder="Enter Venue Name"
             className="w-full rounded-lg text-lg p-3"
           />
         </div>
