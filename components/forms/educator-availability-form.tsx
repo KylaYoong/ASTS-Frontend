@@ -150,7 +150,7 @@ export function EducatorAvailabilityForm() {
             value={availableStartTime}
             onChange={(e) => {
               const timeValue = e.target.value;
-              setAvailableStartTime(timeValue);
+              setAvailableStartTime(timeValue ? `${timeValue}:00` : "");
             }}
             placeholder="Enter start time"
             type="time"
@@ -162,7 +162,7 @@ export function EducatorAvailabilityForm() {
           <label className="text-lg">End Time:</label>
           <Input
             value={availableEndTime}
-            onChange={(e) => setAvailableEndTime(e.target.value)}
+            onChange={(e) => {setAvailableEndTime(e.target.value? `${e.target.value}:00` : "");}}
             placeholder="Enter end time"
             type="time"
             className="w-full rounded-lg text-lg p-3"
