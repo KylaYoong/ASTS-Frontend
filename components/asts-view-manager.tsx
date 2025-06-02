@@ -1,10 +1,5 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Bell, Grid, Plus, Search } from "lucide-react"
-import Image from "next/image"
 import { useState } from "react"
 import { Sidebar } from "./ui/sidebar"
 import type { ActiveView } from "./ui/sidebar"
@@ -24,35 +19,9 @@ import { GeneralTimetable } from "./query/general-timetable"
 import { EducatorTimetable } from "./query/educator-timetable"
 import { GenerateTimetable } from "./query/generate-timetable"
 
-function FileCard({ title, metadata, thumbnail }: { title: string; metadata: string; thumbnail: string }) {
-  return (
-    <div className="group relative overflow-hidden rounded-lg border bg-white">
-      <div className="aspect-[4/3] overflow-hidden">
-        <Image
-          src={thumbnail || "/placeholder.svg"}
-          alt={title}
-          width={400}
-          height={300}
-          className="h-full w-full object-cover transition-transform group-hover:scale-105"
-        />
-      </div>
-      <div className="p-4">
-        <h3 className="font-medium text-gray-900">{title}</h3>
-        <p className="text-sm text-gray-500">{metadata}</p>
-      </div>
-    </div>
-  )
-}
 
 export function ASTSViewManager() {
   const [activeView, setActiveView] = useState<ActiveView>("dashboard")
-
-  // Determine if we should show the timetable view
-  // const showTimetable = activeView === "general"
-
-  // // For debugging
-  // console.log("Current activeView:", activeView)
-  // console.log("Should show timetable:", showTimetable)
 
   const renderFormContent = () => {
     switch (activeView) {
